@@ -62,13 +62,8 @@ int main()
     int id = 0;
     std::cin >> id;
 
-    Worker* newWorker = new Worker;
-    ++lenWorkers;
-    newWorker->id = lenWorkers;
-    newWorker->salary = checkSalary;
-
     Worker* workerId = head;
-    for (; workerId->id != id; workerId = workerId->next) // find needed worker by id
+    for ( ;workerId != nullptr; workerId = workerId->next) // find needed worker by id
     {
         if (workerId->id == id)
         {
@@ -80,14 +75,27 @@ int main()
     // add newWorker to list
     //std::cout << "\nprev->id : " << prev->id << "\t salary : " << prev->salary << "\n";
     //std::cout << "\nworkerId->id : " << workerId->id << "\t salary : " << workerId->salary << "\n";
-    newWorker->next = workerId;
-    if (prev == nullptr)
+    
+    if (prev == tail) // element wasn't founded
     {
-        head = newWorker;
-    }
+        std::cout << "\n\t#####ELEM NOT FOUND#####\n";
+    } 
     else
     {
-        prev->next = newWorker;
+        Worker* newWorker = new Worker;
+        ++lenWorkers;
+        newWorker->id = lenWorkers;
+        newWorker->salary = checkSalary;
+        newWorker->next = workerId;
+
+        if (prev == nullptr)
+        {
+            head = newWorker;
+        }
+        else
+        {
+            prev->next = newWorker;
+        }
     }
     
     // print list
