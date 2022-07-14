@@ -6,7 +6,11 @@
 struct Worker {
     int id = 0;
     int salary = 0;
-    Worker* next = nullptr;
+};
+
+struct Node {
+    Worker* worker = new Worker;
+    Node* next = nullptr;
 };
 
 int main()
@@ -15,14 +19,14 @@ int main()
     const int minSalary = 9000;
     const int maxSalary = 45000;
     const int checkSalary = 9999;
-    Worker* head = nullptr;
-    Worker* tail = nullptr;
+    Node* head = nullptr;
+    Node* tail = nullptr;
     // Fill start list and print
     for (int i = 0; i < lenWorkers; i++)
     {
-        Worker* curent = new Worker;
-        curent->id = i + 1;
-        curent->salary = minSalary + rand() % (maxSalary - minSalary + 1);
+        Node* curent = new Node;
+        curent->worker->id = i + 1;
+        curent->worker->salary = minSalary + rand() % (maxSalary - minSalary + 1);
         
         if (head == nullptr)
         {
@@ -36,14 +40,14 @@ int main()
 
         tail = curent;
         //print curent(tail) worker
-        std::cout << "id : " << tail->id << "\t salary : " << tail->salary << "\n";
+        std::cout << "id : " << tail->worker->id << "\t salary : " << tail->worker->salary << "\n";
     }
 
-    Worker* prev = nullptr;
+    Node* prev = nullptr;
     // Task 1 - reverse list
-    for (Worker* cur = head; cur != nullptr; )
+    for (Node* cur = head; cur != nullptr; )
     {
-        Worker* next = cur->next;
+        Node* next = cur->next;
         cur->next = prev;
         prev = cur;
         cur = next;
@@ -52,9 +56,9 @@ int main()
 
     // print list
     std::cout << "\n\n";
-    for (Worker* cur = head; cur != nullptr; cur = cur->next)
+    for (Node* cur = head; cur != nullptr; cur = cur->next)
     {
-        std::cout << "id : " << cur->id << "\t salary : " << cur->salary << "\n";
+        std::cout << "id : " << cur->worker->id << "\t salary : " << cur->worker->salary << "\n";
     }
 
     // Task 2 add worker before typed id
@@ -62,10 +66,10 @@ int main()
     int id = 0;
     std::cin >> id;
 
-    Worker* workerId = head;
+    Node* workerId = head;
     for ( ;workerId != nullptr; workerId = workerId->next) // find needed worker by id
     {
-        if (workerId->id == id)
+        if (workerId->worker->id == id)
         {
             break;
         }
@@ -82,10 +86,10 @@ int main()
     } 
     else
     {
-        Worker* newWorker = new Worker;
+        Node* newWorker = new Node;
         ++lenWorkers;
-        newWorker->id = lenWorkers;
-        newWorker->salary = checkSalary;
+        newWorker->worker->id = lenWorkers;
+        newWorker->worker->salary = checkSalary;
         newWorker->next = workerId;
 
         if (prev == nullptr)
@@ -100,15 +104,16 @@ int main()
     
     // print list
     std::cout << "\n\n";
-    for (Worker* cur = head; cur != nullptr; cur = cur->next)
+    for (Node* cur = head; cur != nullptr; cur = cur->next)
     {
-        std::cout << "id : " << cur->id << "\t salary : " << cur->salary << "\n";
+        std::cout << "id : " << cur->worker->id << "\t salary : " << cur->worker->salary << "\n";
     }
 
     //delete list
     prev = head;
-    for (Worker* cur = head->next; cur != nullptr; cur = cur->next)
+    for (Node* cur = head->next; cur != nullptr; cur = cur->next)
     {
+        delete prev->worker;
         delete prev;
         prev = nullptr;
         prev = cur;
