@@ -39,25 +39,16 @@ int main()
         std::cout << "id : " << tail->id << "\t salary : " << tail->salary << "\n";
     }
 
+    Worker* prev = nullptr;
     // Task 1 - reverse list
-    for (int i = 0; i < lenWorkers / 2; i++)
+    for (Worker* cur = head; cur != nullptr; )
     {
-        Worker* left = head;
-        Worker* right = head;
-        for (int j = 0; j < i; j++) // set necessary index like A[i]
-        {
-            left = left->next;
-        }
-
-        for (int k = 0; k < lenWorkers - i - 1; k++) // set necessary index like A[len - i]
-        {
-            right = right->next;
-        }
-
-        // Swap id and salary
-        std::swap(left->id, right->id);
-        std::swap(left->salary, right->salary);
+        Worker* next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
     }
+    std::swap(head, tail);
 
     // print list
     std::cout << "\n\n";
@@ -70,7 +61,6 @@ int main()
     std::cout << "\nInput id before : ";
     int id = 0;
     std::cin >> id;
-    Worker* prev = nullptr;
 
     Worker* newWorker = new Worker;
     ++lenWorkers;
